@@ -1,16 +1,25 @@
+server:
+  port: 18001
+  servlet:
+    context-path: /stock
+    session:
+      cookie:
+        http-only: true
+
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.213:3306/dev_lbb_purchase?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=100
-    username: dev_apps
-    password: g9Jy3hMH
+    url: jdbc:mysql://106.14.81.70:3306/stock?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=100
+    username: root
+    password: root
   redis:
     database: 0
-    host: 172.19.183.163
+    host: 106.14.81.70
     port: 6379
-    password: redis_&lbb_0517   # 密码（默认为空）
+    password: 123456   # 密码（默认为空）
     timeout: 6000ms  # 连接超时时长（毫秒）
     jedis:
       pool:

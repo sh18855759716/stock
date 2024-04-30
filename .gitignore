@@ -37,3 +37,5 @@ out/
 .vscode/
 /gradle/wrapper/gradle-wrapper.jar
 /settings.gradle
+target/
+
