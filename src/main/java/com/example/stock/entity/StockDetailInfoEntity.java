@@ -6,17 +6,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.util.Date;
 import java.io.Serializable;
+import java.math.BigDecimal;
 /**
- * 产品管理表
+ * 库存明细表
  * 
  * @author suheng
  * @email 
- * @date 2024-04-29 22:51:37
+ * @date 2024-04-30 13:57:20
  * @verion v1.1
  */
 @Data
-@TableName("product_management_info")
-public class ProductManagementInfoEntity implements Serializable {
+@TableName("stock_detail_info")
+public class StockDetailInfoEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -26,41 +27,35 @@ public class ProductManagementInfoEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 产品编号
+	 * 产品id
 	 */
-    @ApiModelProperty(value = "产品编号")
-	private String productNum;
+    @ApiModelProperty(value = "产品id")
+	private Long productInfoId;
 	/**
-	 * 产品名称
+	 * 销售单编号
 	 */
-    @ApiModelProperty(value = "产品名称")
-	private String productName;
+    @ApiModelProperty(value = "销售单编号")
+	private String saleOrderNum;
 	/**
-	 * 分类
+	 * 采购单编号
 	 */
-    @ApiModelProperty(value = "分类")
-	private String category;
+    @ApiModelProperty(value = "采购单编号")
+	private String purchaseOrderNum;
 	/**
-	 * 规格
+	 * 操作类型：1：入库 2：出库
 	 */
-    @ApiModelProperty(value = "规格")
-	private String specification;
+    @ApiModelProperty(value = "操作类型：1：入库 2：出库")
+	private Integer operateType;
 	/**
-	 * 上下架状态 1：上架  2：下架
+	 * 操作数量
 	 */
-    @ApiModelProperty(value = "上下架状态 1：上架  2：下架")
-	private Integer shelfStatus;
-	/**
-	 * 仓库
-	 */
-    @ApiModelProperty(value = "仓库")
-	private String store;
-
-	@ApiModelProperty(value = "签订人")
-	private String signName;
+    @ApiModelProperty(value = "操作数量")
+	private BigDecimal operateNumber;
 	/**
 	 * 是否删除0：未删除；1：删除
 	 */
+    @ApiModelProperty(value = "是否删除0：未删除；1：删除")
+	private Integer isDel;
 	/**
 	 * 创建时间
 	 */

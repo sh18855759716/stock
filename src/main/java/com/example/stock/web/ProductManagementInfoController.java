@@ -22,7 +22,7 @@ import java.util.List;
  * @version v8.4.16
  */
 @RestController
-@RequestMapping("v1/productManagementInfo")
+@RequestMapping("/v1/productManagementInfo")
 public class ProductManagementInfoController {
     @Autowired
     private ProductManagementInfoService productManagementInfoService;
