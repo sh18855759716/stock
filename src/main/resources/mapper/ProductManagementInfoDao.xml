@@ -3,4 +3,32 @@
 
 <mapper namespace="com.example.stock.dao.ProductManagementInfoDao">
 
+    <select id="queryProductInfoList" resultType="com.example.stock.vo.ProductManagementInfoVO">
+         select
+             pmi.id,
+             pmi.product_num,
+        pmi.product_name,
+        pmi.category,
+        pmi.shelf_status,
+        pmi.product_num,
+        pmi.specification,
+        pmi.store,
+        pmi.create_time,
+        pmi.update_time
+            from product_management_info pmi
+            <where>
+                <if test="productNum != null and productNum != ''">
+                  and  pmi.product_num = #{productNum}
+                </if>
+                <if test="productName != null and productName != ''">
+                   and  pmi.product_name like concat('%',#{productName},'%')
+                </if>
+                <if test="category != null and category != ''">
+                  and   pmi.category = #{category}
+                </if>
+                <if test="shelfStatus != null ">
+                   and  pmi.shelf_status = #{shelfStatus}
+                </if>
+            </where>
+    </select>
 </mapper>

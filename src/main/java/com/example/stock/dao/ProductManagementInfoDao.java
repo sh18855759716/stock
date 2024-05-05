@@ -2,8 +2,13 @@ package com.example.stock.dao;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.example.stock.dto.ProductManagementInfoDTO;
 import com.example.stock.entity.ProductManagementInfoEntity;
+import com.example.stock.vo.ProductManagementInfoVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -16,5 +21,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("productManagementInfoDao")
 public interface ProductManagementInfoDao extends BaseMapper<ProductManagementInfoEntity> {
-	
+
+    List<ProductManagementInfoVO> queryProductInfoList(ProductManagementInfoDTO productManagementInfoDTO);
+
 }

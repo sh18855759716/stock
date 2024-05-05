@@ -1,15 +1,18 @@
 package com.example.stock.web;
 
+import com.example.stock.dto.ProductManagementInfoDTO;
 import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.service.ProductManagementInfoService;
 import com.example.stock.util.RedisUtil;
 import com.example.stock.vo.ApiUtil;
 import com.example.stock.vo.BaseApi;
+import com.example.stock.vo.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,6 +45,18 @@ public class ProductManagementInfoController {
         Object test = redisUtil.get("test");
         return ApiUtil.addRightData("sss",test.toString());
     }
+
+    /**
+     * 查询产品列表
+     * @param productManagementInfoDTO
+     * @return
+     */
+    @PostMapping("/queryProductInfoList")
+    public BaseApi queryProductInfoList(@RequestBody ProductManagementInfoDTO productManagementInfoDTO){
+        PageBean pageBean = productManagementInfoService.queryProductInfoList(productManagementInfoDTO);
+        return ApiUtil.addRightData("查询成功",pageBean);
+    }
+
 
     @GetMapping("/fuzzyQueryProductList")
     public BaseApi<List<ProductManagementInfoEntity>> fuzzyQueryProductList(@RequestParam(value = "productName",required = false) String productName) {

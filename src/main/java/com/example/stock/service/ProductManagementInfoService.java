@@ -1,7 +1,9 @@
 package com.example.stock.service;
 
 
+import com.example.stock.dto.ProductManagementInfoDTO;
 import com.example.stock.entity.ProductManagementInfoEntity;
+import com.example.stock.vo.PageBean;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,13 @@ public interface ProductManagementInfoService {
     Map<Long, ProductManagementInfoEntity> queryProductMap(List<Long> productIdList);
 
 
+
+    /**
+     * 查询产品列表
+     * @param productManagementInfoDTO
+     * @return
+     */
+    PageBean queryProductInfoList(ProductManagementInfoDTO productManagementInfoDTO);
 
 }
 
