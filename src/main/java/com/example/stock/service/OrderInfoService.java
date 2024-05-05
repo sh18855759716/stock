@@ -8,6 +8,7 @@ import com.example.stock.dto.SaveOrderInfoDto;
 import com.example.stock.entity.OrderInfoEntity;
 import com.example.stock.vo.BaseApi;
 import com.example.stock.vo.OrderInfoVo;
+import com.example.stock.vo.PageVo;
 
 /**
  * 订单表
@@ -24,7 +25,7 @@ public interface OrderInfoService extends IService<OrderInfoEntity> {
      * @param dto
      * @return
      */
-    BaseApi<Page<OrderInfoEntity>> queryOrderInfoPage(Integer orderType, QueryOrderInfoPageDto dto);
+    BaseApi<PageVo<OrderInfoEntity>> queryOrderInfoPage(Integer orderType, QueryOrderInfoPageDto dto);
 
     /**
      * 保存订单信息

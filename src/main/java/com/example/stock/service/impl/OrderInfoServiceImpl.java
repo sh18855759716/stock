@@ -6,7 +6,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.stock.dao.OrderInfoDao;
 import com.example.stock.dto.QueryOrderInfoPageDto;
@@ -20,6 +20,8 @@ import com.example.stock.service.ProductManagementInfoService;
 import com.example.stock.vo.ApiUtil;
 import com.example.stock.vo.BaseApi;
 import com.example.stock.vo.OrderInfoVo;
+import com.example.stock.vo.PageVo;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +52,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
     ProductManagementInfoService productManagementInfoService;
 
     @Override
-    public BaseApi<Page<OrderInfoEntity>> queryOrderInfoPage(Integer orderType, QueryOrderInfoPageDto dto) {
+    public BaseApi<PageVo<OrderInfoEntity>> queryOrderInfoPage(Integer orderType, QueryOrderInfoPageDto dto) {
         BaseApi check = dto.check();
         if (check != null) {
             return check;
@@ -60,16 +62,16 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
         if (StringUtils.isNotBlank(dto.getOrderTime())) {
             orderTime = DateUtil.parse(dto.getOrderTime());
         }
-
-        Page<OrderInfoEntity> orderInfoEntityPage = this.selectPage(new Page<>(dto.getCurrent(), dto.getSize()), new EntityWrapper<OrderInfoEntity>()
+        PageHelper.startPage(dto.getCurrent(), dto.getSize());
+        List<OrderInfoEntity> orderInfoEntities = this.selectList(new EntityWrapper<OrderInfoEntity>()
                 .eq("order_type", orderType)
                 .eq(StringUtils.isNotBlank(dto.getOrderNum()), "order_num", dto.getOrderNum())
                 .like(StringUtils.isNotBlank(dto.getOrderName()), "order_name", dto.getOrderName())
                 .between(orderTime != null, "order_time", getFirstDate(orderTime), getLastDate(orderTime))
                 .eq("is_del", 0));
-
-        BaseApi<Page<OrderInfoEntity>> objectBaseApi = new BaseApi<>();
-        objectBaseApi.success(orderInfoEntityPage);
+        PageInfo<OrderInfoEntity> orderInfoEntitiesPageInfo = new PageInfo<>(orderInfoEntities);
+        BaseApi<PageVo<OrderInfoEntity>> objectBaseApi = new BaseApi<>();
+        objectBaseApi.success(new PageVo<OrderInfoEntity>(dto.getCurrent(), dto.getSize(), orderInfoEntitiesPageInfo.getTotal(), orderInfoEntitiesPageInfo.getList()));
         return objectBaseApi;
     }
 

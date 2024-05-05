@@ -7,6 +7,7 @@ import com.example.stock.entity.OrderInfoEntity;
 import com.example.stock.service.OrderInfoService;
 import com.example.stock.vo.BaseApi;
 import com.example.stock.vo.OrderInfoVo;
+import com.example.stock.vo.PageVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,7 @@ public class OrderInfoController {
 
 	@GetMapping("/queryPurchaseOrderInfoPage")
 	@ApiOperation("查询采购订单")
-	public BaseApi<Page<OrderInfoEntity>> queryPurchaseOrderInfoPage(QueryOrderInfoPageDto dto){
+	public BaseApi<PageVo<OrderInfoEntity>> queryPurchaseOrderInfoPage(QueryOrderInfoPageDto dto){
 		return orderInfoService.queryOrderInfoPage(1, dto);
 	}
 
@@ -49,7 +50,7 @@ public class OrderInfoController {
 
 	@GetMapping("/querySaleOrderInfoPage")
 	@ApiOperation("查询销售订单")
-	public BaseApi<Page<OrderInfoEntity>> querySaleOrderInfoPage(QueryOrderInfoPageDto dto){
+	public BaseApi<PageVo<OrderInfoEntity>> querySaleOrderInfoPage(QueryOrderInfoPageDto dto){
 		return orderInfoService.queryOrderInfoPage(2, dto);
 	}
 
@@ -67,7 +68,7 @@ public class OrderInfoController {
 
 	@DeleteMapping("/delOrderProduct")
 	@ApiOperation("删除订单明细行")
-	public BaseApi<?> delOrderProduct(@RequestParam("订单明细行id") Long id){
+	public BaseApi<?> delOrderProduct(@RequestParam("id") Long id){
 		return orderInfoService.delOrderProduct(id);
 	}
 
