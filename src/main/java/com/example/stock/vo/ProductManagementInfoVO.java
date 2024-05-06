@@ -45,8 +45,8 @@ public class ProductManagementInfoVO {
     @ApiModelProperty(value = "仓库")
     private String store;
 
-    @ApiModelProperty(value = "签订人")
-    private String signName;
+    @ApiModelProperty(value = "单位")
+    private String unit;
     /**
      * 是否删除0：未删除；1：删除
      */

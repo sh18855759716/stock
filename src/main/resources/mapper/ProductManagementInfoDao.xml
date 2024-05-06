@@ -29,6 +29,9 @@
                 <if test="shelfStatus != null ">
                    and  pmi.shelf_status = #{shelfStatus}
                 </if>
+                <if test="id != null ">
+                    and  pmi.id = #{id}
+                </if>
             </where>
     </select>
 </mapper>

@@ -4,6 +4,7 @@ package com.example.stock.service;
 import com.example.stock.dto.ProductManagementInfoDTO;
 import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.vo.PageBean;
+import com.example.stock.vo.ProductManagementInfoVO;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,13 @@ public interface ProductManagementInfoService {
      * @return
      */
     PageBean queryProductInfoList(ProductManagementInfoDTO productManagementInfoDTO);
+
+    void updateShelfStatus(Long id, Integer shelfStatus);
+
+
+    ProductManagementInfoVO getById(Long id);
+
+    Long addOrUpdateProduct(ProductManagementInfoDTO productManagementInfoDTO);
 
 }
 

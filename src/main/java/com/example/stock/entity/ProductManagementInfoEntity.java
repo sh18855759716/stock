@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.example.stock.util.Long2StringSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import java.util.Date;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.io.Serializable;
  * @verion v1.1
  */
 @Data
+@Builder
 @TableName("product_management_info")
 public class ProductManagementInfoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,6 +50,11 @@ public class ProductManagementInfoEntity implements Serializable {
      */
     @ApiModelProperty(value = "规格")
     private String specification;
+
+    /**
+     * 单位
+     */
+    private String unit;
     /**
      * 上下架状态 1：上架  2：下架
      */

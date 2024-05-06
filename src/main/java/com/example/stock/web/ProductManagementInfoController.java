@@ -3,6 +3,7 @@ package com.example.stock.web;
 import com.example.stock.dto.ProductManagementInfoDTO;
 import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.service.ProductManagementInfoService;
+import com.example.stock.util.IdNumberUtil;
 import com.example.stock.util.RedisUtil;
 import com.example.stock.vo.ApiUtil;
 import com.example.stock.vo.BaseApi;
@@ -32,6 +33,8 @@ public class ProductManagementInfoController {
     private ProductManagementInfoService productManagementInfoService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private IdNumberUtil idNumberUtil;
 
     @GetMapping("/test")
     public BaseApi test(){
@@ -52,10 +55,34 @@ public class ProductManagementInfoController {
      * @return
      */
     @PostMapping("/queryProductInfoList")
-    public BaseApi queryProductInfoList(@RequestBody ProductManagementInfoDTO productManagementInfoDTO){
+    public BaseApi<PageBean> queryProductInfoList(@RequestBody ProductManagementInfoDTO productManagementInfoDTO){
         PageBean pageBean = productManagementInfoService.queryProductInfoList(productManagementInfoDTO);
         return ApiUtil.addRightData("查询成功",pageBean);
     }
+
+    @GetMapping("/updateShelfStatus")
+    public BaseApi updateShelfStatus(@RequestParam("id")Long id,@RequestParam("shelfStatus")Integer shelfStatus){
+        productManagementInfoService.updateShelfStatus(id,shelfStatus);
+        return ApiUtil.addRightData("操作成功","");
+
+    }
+
+    @GetMapping("/getById")
+    public BaseApi getById(@RequestParam("id")Long id){
+        return ApiUtil.addRightData("查询成功",productManagementInfoService.getById(id));
+    }
+
+    @PostMapping("/addOrUpdateProduct")
+    public BaseApi addOrUpdateProduct(@RequestBody ProductManagementInfoDTO productManagementInfoDTO){
+        return ApiUtil.addRightData("操作成功",productManagementInfoService.addOrUpdateProduct(productManagementInfoDTO));
+    }
+
+    @GetMapping("/getProductNumber")
+    public BaseApi getProductNumber(){
+        return ApiUtil.addRightData("生成成功",idNumberUtil.getProductNumber());
+    }
+
+
 
 
     @GetMapping("/fuzzyQueryProductList")

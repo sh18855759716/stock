@@ -1,6 +1,9 @@
 package com.example.stock.service.impl;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
@@ -8,16 +11,19 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.stock.dao.ProductManagementInfoDao;
 import com.example.stock.dto.ProductManagementInfoDTO;
+import com.example.stock.entity.OrderProductInfoEntity;
 import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.service.ProductManagementInfoService;
 import com.example.stock.vo.PageBean;
 import com.example.stock.vo.ProductManagementInfoVO;
 import com.github.pagehelper.PageInfo;
+import javafx.util.Builder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +56,39 @@ public class ProductManagementInfoServiceImpl extends ServiceImpl<ProductManagem
         PageInfo<ProductManagementInfoVO> productManagementInfoVOPageInfo = new PageInfo<>(productManagementInfoVOList);
         return new PageBean(productManagementInfoVOPageInfo.getTotal(),productManagementInfoVOPageInfo.getList());
 	}
+
+    @Override
+    public void updateShelfStatus(Long id, Integer shelfStatus) {
+        ProductManagementInfoEntity productManagementInfoEntity = ProductManagementInfoEntity.builder()
+                .id(id)
+                .shelfStatus(shelfStatus)
+                .updateTime(new Date())
+                .build();
+        productManagementInfoDao.updateById(productManagementInfoEntity);
+    }
+
+    @Override
+    public ProductManagementInfoVO getById(Long id) {
+        ProductManagementInfoDTO productManagementInfoDTO = ProductManagementInfoDTO.builder().id(id).build();
+        List<ProductManagementInfoVO> productManagementInfoVOList = productManagementInfoDao.queryProductInfoList(productManagementInfoDTO);
+        return productManagementInfoVOList.get(0);
+    }
+
+
+    @Override
+    public Long addOrUpdateProduct(ProductManagementInfoDTO productManagementInfoDTO) {
+        ProductManagementInfoEntity productManagementInfoEntity = ProductManagementInfoEntity.builder().build();
+        BeanUtil.copyProperties(productManagementInfoDTO,productManagementInfoEntity, CopyOptions.create().setIgnoreNullValue(true).setIgnoreError(true));
+        if (ObjectUtil.isEmpty(productManagementInfoDTO.getId())){
+            //新增
+            this.insert(productManagementInfoEntity);
+        }else {
+            //修改
+            this.updateById(productManagementInfoEntity);
+        }
+        return 0l;
+    }
+
     @Override
     public List<ProductManagementInfoEntity> test() {
         return this.selectList(new EntityWrapper<>());
