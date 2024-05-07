@@ -10,7 +10,6 @@
         pmi.product_name,
         pmi.category,
         pmi.shelf_status,
-        pmi.product_num,
         pmi.specification,
         pmi.store,
         pmi.create_time,

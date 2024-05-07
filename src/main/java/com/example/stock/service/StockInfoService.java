@@ -1,6 +1,9 @@
 package com.example.stock.service;
 
 
+import com.example.stock.dto.StockInfoDTO;
+import com.example.stock.vo.PageBean;
+
 /**
  * 库存表
  *
@@ -11,6 +14,11 @@ package com.example.stock.service;
  */
 public interface StockInfoService {
 
+
+    PageBean queryStockInfoList(StockInfoDTO stockInfoDTO);
+
+
+    PageBean queryStockDetailInfoVos(StockInfoDTO stockInfoDTO);
 
 }
 
