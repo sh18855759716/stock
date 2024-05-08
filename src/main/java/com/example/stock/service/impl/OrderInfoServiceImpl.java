@@ -107,9 +107,19 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
         // 订单明细
         List<OrderProductInfoEntity> orderProductInfoEntitieList = dto.getOrderProductInfoEntitieList();
         List<Long> collect = orderProductInfoEntitieList.stream().map(OrderProductInfoEntity::getProductInfoId).distinct().collect(Collectors.toList());
-        if (collect.size() != orderProductInfoEntitieList.size()) {
-            res.paramError("订单的产品不允许重复", null);
-            return res;
+
+        List<OrderProductInfoEntity> orderProductInfoEntities = orderProductInfoService.selectList(new EntityWrapper<OrderProductInfoEntity>()
+                .eq("order_info_id", id));
+        // 产品唯一性校验
+        List<Long> dbProductIdList = orderProductInfoEntities.stream().map(OrderProductInfoEntity::getProductInfoId).collect(Collectors.toList());
+        for (OrderProductInfoEntity orderProductInfoEntity : orderProductInfoEntitieList) {
+            if (orderProductInfoEntity.getId() == null) {
+                if (dbProductIdList.contains(orderProductInfoEntity.getProductInfoId())) {
+                    res.paramError("订单的产品不允许重复", null);
+                    return res;
+                }
+                dbProductIdList.add(orderProductInfoEntity.getProductInfoId());
+            }
         }
 
 
@@ -144,17 +154,6 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
             return res;
         }
 
-        //orderProductInfoService.delete(new EntityWrapper<OrderProductInfoEntity>()
-        //		.eq("order_info_id", id));
-
-        BigDecimal productNumber = orderProductInfoEntitieList.stream().map(OrderProductInfoEntity::getProductNumber).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal money = orderProductInfoEntitieList.stream().map(OrderProductInfoEntity::getProductMoney).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        entity.setOrderMoney(money);
-        entity.setOrderNumber(productNumber);
-        entity.setUpdateTime(now);
-        updateById(entity);
-
         for (OrderProductInfoEntity orderProductInfoEntity : orderProductInfoEntitieList) {
             Long infoId = orderProductInfoEntity.getId();
             if (infoId == null) {
@@ -172,6 +171,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoDao, OrderInfoEnt
                 orderProductInfoService.updateById(dbInfoEntity);
             }
         }
+        List<OrderProductInfoEntity> newOrderProductInfoEntities = orderProductInfoService.selectList(new EntityWrapper<OrderProductInfoEntity>()
+                .eq("order_info_id", id));
+        BigDecimal productNumber = newOrderProductInfoEntities.stream().map(OrderProductInfoEntity::getProductNumber).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal money = newOrderProductInfoEntities.stream().map(OrderProductInfoEntity::getProductMoney).reduce(BigDecimal.ZERO, BigDecimal::add);
+        entity.setOrderMoney(productNumber);
+        entity.setOrderNumber(money);
+        entity.setUpdateTime(now);
+        entity.setOrderName(dto.getOrderName());
+        entity.setSignName(dto.getSignName());
+        entity.setOrderTime(dto.getOrderTime());
+        updateById(entity);
 
         res.success(resStr);
         return res;
