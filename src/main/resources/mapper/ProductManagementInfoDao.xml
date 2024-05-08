@@ -13,7 +13,8 @@
         pmi.specification,
         pmi.store,
         pmi.create_time,
-        pmi.update_time
+        pmi.update_time,
+        pmi.unit
             from product_management_info pmi
             <where>
                 <if test="productNum != null and productNum != ''">
