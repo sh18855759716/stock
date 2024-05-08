@@ -87,7 +87,7 @@ public class ProductManagementInfoController {
 
     @GetMapping("/fuzzyQueryProductList")
     public BaseApi<List<ProductManagementInfoEntity>> fuzzyQueryProductList(@RequestParam(value = "productName",required = false) String productName) {
-        return ApiUtil.addRightData("成功", productManagementInfoService.fuzzyQueryProductList(productName));
+        return ApiUtil.addRightData("成功", productManagementInfoService.fuzzyQueryProductList(null, productName));
     }
 
 
