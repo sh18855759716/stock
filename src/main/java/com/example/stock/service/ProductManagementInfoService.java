@@ -25,10 +25,11 @@ public interface ProductManagementInfoService {
 
     /**
      * 模糊查询产品信息
+     * @param productIdList
      * @param productName
      * @return
      */
-    List<ProductManagementInfoEntity> fuzzyQueryProductList(String productName);
+    List<ProductManagementInfoEntity> fuzzyQueryProductList(List<Long> productIdList, String productName);
 
     /**
      * 批量查询产品
