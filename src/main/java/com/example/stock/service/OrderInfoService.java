@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.example.stock.dto.QueryOrderInfoPageDto;
 import com.example.stock.dto.SaveOrderInfoDto;
+import com.example.stock.dto.SaveStockDto;
 import com.example.stock.entity.OrderInfoEntity;
+import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.vo.BaseApi;
 import com.example.stock.vo.OrderInfoVo;
 import com.example.stock.vo.PageVo;
+
+import java.util.List;
 
 /**
  * 订单表
@@ -55,6 +59,22 @@ public interface OrderInfoService extends IService<OrderInfoEntity> {
      * @param id
      * @return
      */
-    BaseApi<?> saveInOrOutbound(Long id);
+    BaseApi<?> saveInOrOutbound(SaveStockDto dto);
+
+    /**
+     * 查询订单出入库信息
+     * @param id
+     * @return
+     */
+    BaseApi<OrderInfoVo> queryOrderSerialInfo(Long id);
+
+    /**
+     * 模糊查询产品信息
+     * @param id
+     * @param productName
+     * @return
+     */
+    List<ProductManagementInfoEntity> fuzzyQueryOrderProductList(Long id, String productName);
+
 }
 
