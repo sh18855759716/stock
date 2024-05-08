@@ -20,6 +20,8 @@ public class IdNumberUtil {
 
 
     public static final String PRODUCT_NUMBER = "product:number";
+    public static final String OUTBOUND_NUMBER = "outbound:number";
+    public static final String INBOUND_NUMBER = "inbound:number";
 
 
 
@@ -48,6 +50,37 @@ public class IdNumberUtil {
             Integer num = Integer.valueOf(objNum.toString());
             num += 1;
             redisUtil.set(key,num.toString(),remainSecondsOneDay);
+            productNumber += num;
+        }
+        return productNumber;
+    }
+
+    /**
+     * 出入库编号
+     *
+     * @return
+     */
+    public String getStockNumber(int type) {
+        String productNumber = type == 1 ? "RK" : "CK";
+        String key = type == 1 ? INBOUND_NUMBER : OUTBOUND_NUMBER;
+        Date now = new Date();
+        String format = DateUtils.format(new Date(), "yyyyMMdd");
+
+        LocalDateTime midnight = LocalDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault()).plusDays(1L).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime currentDateTime = LocalDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault());
+        long seconds = ChronoUnit.SECONDS.between(currentDateTime, midnight);
+        int remainSecondsOneDay = (int) seconds;
+
+        productNumber += format;
+        //获取当日的序列号
+        Object objNum = redisUtil.get(key);
+        if (ObjectUtil.isEmpty(objNum)) {
+            productNumber += 1;
+            redisUtil.set(key, "1", remainSecondsOneDay);
+        } else {
+            Integer num = Integer.valueOf(objNum.toString());
+            num += 1;
+            redisUtil.set(key, num.toString(), remainSecondsOneDay);
             productNumber += num;
         }
         return productNumber;
