@@ -2,8 +2,12 @@ package com.example.stock.service.impl;
 
 
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.example.stock.dao.StockDetailInfoDao;
 import com.example.stock.dao.StockInfoDao;
 import com.example.stock.dto.StockInfoDTO;
+import com.example.stock.entity.StockDetailInfoEntity;
+import com.example.stock.entity.StockInfoEntity;
 import com.example.stock.service.StockInfoService;
 import com.example.stock.vo.PageBean;
 import com.example.stock.vo.ProductManagementInfoVO;
@@ -25,7 +29,7 @@ import java.util.List;
  * @version v1.1
  */
 @Service("stockInfoService")
-public class StockInfoServiceImpl implements StockInfoService {
+public class StockInfoServiceImpl extends ServiceImpl<StockInfoDao, StockInfoEntity> implements StockInfoService {
 	@Autowired
 	private StockInfoDao stockInfoDao;
 
