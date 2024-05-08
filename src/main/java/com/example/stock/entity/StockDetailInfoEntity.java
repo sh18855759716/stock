@@ -46,6 +46,10 @@ public class StockDetailInfoEntity implements Serializable {
 	 */
     @ApiModelProperty(value = "操作类型：1：入库 2：出库")
 	private Integer operateType;
+
+	@ApiModelProperty(value = "入库出库编号")
+	private String stockNum;
+
 	/**
 	 * 操作数量
 	 */
