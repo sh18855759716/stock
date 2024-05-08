@@ -1,10 +1,12 @@
 package com.example.stock.web;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.example.stock.dto.QueryOrderInfoPageDto;
 import com.example.stock.dto.SaveOrderInfoDto;
+import com.example.stock.dto.SaveStockDto;
 import com.example.stock.entity.OrderInfoEntity;
+import com.example.stock.entity.ProductManagementInfoEntity;
 import com.example.stock.service.OrderInfoService;
+import com.example.stock.vo.ApiUtil;
 import com.example.stock.vo.BaseApi;
 import com.example.stock.vo.OrderInfoVo;
 import com.example.stock.vo.PageVo;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 
 
 /**
@@ -72,10 +75,23 @@ public class OrderInfoController {
 		return orderInfoService.delOrderProduct(id);
 	}
 
+	@GetMapping("/queryOrderSerialInfo")
+	@ApiOperation("查询订单出入库信息")
+	public BaseApi<OrderInfoVo> queryOrderSerialInfo(@RequestParam("id") Long id) {
+		return orderInfoService.queryOrderSerialInfo(id);
+	}
+
+	@GetMapping("/fuzzyQueryOrderProductList")
+	public BaseApi<List<ProductManagementInfoEntity>> fuzzyQueryOrderProductList(
+			@RequestParam(value = "id",required = true) Long id,
+			@RequestParam(value = "productName",required = false) String productName) {
+		return ApiUtil.addRightData("成功", orderInfoService.fuzzyQueryOrderProductList(id, productName));
+	}
+
 	@PostMapping("/saveInOrOutbound")
 	@ApiOperation("操作出库入库")
-	public BaseApi<?> saveInOrOutbound(@RequestBody OrderInfoEntity dto){
-		return orderInfoService.saveInOrOutbound(dto.getId());
+	public BaseApi<?> saveInOrOutbound(@RequestBody SaveStockDto dto){
+		return orderInfoService.saveInOrOutbound(dto);
 	}
 
 
