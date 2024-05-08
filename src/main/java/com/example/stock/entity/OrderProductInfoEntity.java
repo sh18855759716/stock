@@ -8,9 +8,10 @@ import com.example.stock.vo.BaseApi;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import java.util.Date;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 /**
  * 订单产品关联表
  *
@@ -85,6 +86,13 @@ public class OrderProductInfoEntity implements Serializable {
     @ApiModelProperty(value = "规格")
     @TableField(exist = false)
     private String specification;
+
+    /**
+     * 已出库/出库数量
+     */
+    @ApiModelProperty(value = "已出库/出库数量")
+    @TableField(exist = false)
+    private BigDecimal quantity;
 
 
 
