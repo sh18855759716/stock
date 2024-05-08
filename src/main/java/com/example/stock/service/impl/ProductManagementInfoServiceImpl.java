@@ -17,7 +17,7 @@ import com.example.stock.service.ProductManagementInfoService;
 import com.example.stock.vo.PageBean;
 import com.example.stock.vo.ProductManagementInfoVO;
 import com.github.pagehelper.PageInfo;
-import javafx.util.Builder;
+//import javafx.util.Builder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -95,9 +95,10 @@ public class ProductManagementInfoServiceImpl extends ServiceImpl<ProductManagem
     }
 
     @Override
-    public List<ProductManagementInfoEntity> fuzzyQueryProductList(String productName) {
+    public List<ProductManagementInfoEntity> fuzzyQueryProductList(List<Long> productIdList, String productName) {
         // 模糊查询拿五十条
         return this.selectPage(new Page<>(1, 50), new EntityWrapper<ProductManagementInfoEntity>()
+                .in(CollectionUtils.isNotEmpty(productIdList), "id", productIdList)
                 .like(StringUtils.isNotBlank(productName), "product_name", productName)
                 .eq("is_del", 0)).getRecords();
     }
